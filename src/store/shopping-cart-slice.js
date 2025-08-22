@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     items: [],
     totalQuantity: 0,
+    changed: false, // This can be used to track if the cart has been modified
 };
 
 const shoppingCartSlice = createSlice({
@@ -18,6 +19,7 @@ const shoppingCartSlice = createSlice({
             const newItem = action.payload;
             console.log('Itemes in cart before addition:', state.items);
             const existingItem = state.items.find(item => item.id === newItem.id);
+            state.changed = true; // Mark the cart as changed
             state.totalQuantity++;
             if (existingItem) {
                 // If the item already exists, increase its quantity and total price
@@ -43,6 +45,7 @@ const shoppingCartSlice = createSlice({
             // console.log('Removing item:', existingItem);
             console.log('Removing item with ID:', id);
             console.log('the number of items in the cart before removal:', state.totalQuantity);
+            state.changed = true; // Mark the cart as changed
             state.totalQuantity--;
             if (existingItem.quantity === 1) {
                 //TODO: remove item from cart
